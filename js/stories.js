@@ -51,3 +51,25 @@ function putStoriesOnPage() {
   $allStoriesList.show();
 }
 
+
+
+/**This function will get the New Story form data ,invokes the
+ * addStory Method and  inkokes putStoriesOnPage method
+ *
+ *  */
+async function getNewStoryAndAdd(evt) {         //store html calls in variables
+  evt.preventDefault();
+   await storyList.addStory(currentUser, {
+    author: $("#author-name").val(),
+    title: $("#new-story-title").val(),
+    url: $("#new-story-url").val()
+  });
+
+  putStoriesOnPage();
+  $newStoryForm.hide();
+
+}
+
+$newStoryForm.on("submit", getNewStoryAndAdd);
+
+//try passing story to generateStoryMarkup avoids refreshing entire storylist
