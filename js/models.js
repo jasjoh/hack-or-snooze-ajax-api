@@ -81,14 +81,11 @@ class StoryList {
     console.log('response : ', axiosResponse);
 
     const createdStory = axiosResponse.data.story;
-
     console.log('new story added : ', createdStory);
-
-
- 
 
     const storyInstance = new Story(createdStory);
     console.log('the new story object ', storyInstance);
+
     this.stories.unshift(storyInstance);
     return storyInstance;
   }
@@ -210,4 +207,6 @@ class User {
       return null;
     }
   }
+
+
 }

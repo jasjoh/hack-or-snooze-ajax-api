@@ -109,6 +109,9 @@ function saveUserCredentialsInLocalStorage() {
 
 function updateUIOnUserLogin() {
   console.debug("updateUIOnUserLogin");
+  // TODO: This is where we unhide favorites / my stories link
+  // TODO: We need to update the list of stories to show favorites
+  // TODO: We also need to create the HTML nav links with click handlers
 
   $allStoriesList.show();
 

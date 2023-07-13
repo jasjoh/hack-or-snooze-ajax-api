@@ -23,6 +23,9 @@ function generateStoryMarkup(story) {
   // console.debug("generateStoryMarkup", story);
 
   const hostName = story.getHostName();
+  // TODO: Add favorite icon to story HTML
+  // TODO: Set favorite icon status based on currentUser
+  // TODO: We will also need click handler for toggling favorite
   return $(`
       <li id="${story.storyId}">
         <a href="${story.url}" target="a_blank" class="story-link">
@@ -57,19 +60,19 @@ function putStoriesOnPage() {
  * addStory Method and  inkokes putStoriesOnPage method
  *
  *  */
-async function getNewStoryAndAdd(evt) {         //store html calls in variables
+async function getNewStoryAndAdd(evt) {
   evt.preventDefault();
-   await storyList.addStory(currentUser, {
+  const storyObject = {
     author: $("#author-name").val(),
     title: $("#new-story-title").val(),
     url: $("#new-story-url").val()
-  });
+  };
+  const storyInstance = await storyList.addStory(currentUser, storyObject );
 
-  putStoriesOnPage();
+  // generate story markup and insert into story list
+  const $storyMarkup = generateStoryMarkup(storyInstance);
+  $allStoriesList.prepend($storyMarkup);
   $newStoryForm.hide();
-
 }
 
 $newStoryForm.on("submit", getNewStoryAndAdd);
-
-//try passing story to generateStoryMarkup avoids refreshing entire storylist
