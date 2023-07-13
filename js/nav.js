@@ -36,3 +36,12 @@ function updateNavOnLogin() {
   $navLogOut.show();
   $navUserProfile.text(`${currentUser.username}`).show();
 }
+
+/** Show new story submission form on click on "submit" */
+function navNewStory(evt) {
+  // form ID is add-new-story-form
+  console.log("navNewStory func called with:", evt);
+  $newStoryForm.show();
+}
+
+$navSubmit.on("click", navNewStory);
