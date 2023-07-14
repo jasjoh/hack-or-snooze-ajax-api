@@ -207,13 +207,41 @@ class User {
       return null;
     }
   }
-
-  addFavorite(story) {
+  /** function to call api indicating user has selected a favorite story
+   * accepts a story and passes the current user username/token and the storyID
+   * of the selected story. GET method Updates the users's
+   * array of favorite stories
+   */
+  async addFavorite(story) {
     console.log("addFavorite called with story:", story);
     // API call to indicate story clicked on is a favorite
 
-    // Add to the favorite array (this.favorites)
+    const responseFromFavoriteStoryCall = await axios({
+      url: `${BASE_URL}/users/${currentUser.username}/favorites/${story.storyId}`,
+      method: "POST",
+      data: { token: this.loginToken },
+
+    });
+    console.log('favs response :', responseFromFavoriteStoryCall);
 
   }
+
+  /** function to rmove a story from the user's favorites array.
+   * This function accepts as story  and calls th eapi with a DELET method,
+   * removing the story form the user favorite array */
+  async unFavorite(story) {
+    console.log("unFavorite called with story:", story);
+    // API call to indicate story clicked on is a favorite
+
+    const responseFromUnFavoriteStoryCall = await axios({
+      url: `${BASE_URL}/users/${currentUser.username}/favorites/${story.storyId}`,
+      method: "DELETE",
+      data: { token: this.loginToken },
+
+    });
+    console.log('favs response :', responseFromUnFavoriteStoryCall);
+
+  }
+
 
 }
