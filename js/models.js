@@ -208,5 +208,12 @@ class User {
     }
   }
 
+  addFavorite(story) {
+    console.log("addFavorite called with story:", story);
+    // API call to indicate story clicked on is a favorite
+
+    // Add to the favorite array (this.favorites)
+
+  }
 
 }
