@@ -222,9 +222,9 @@ class User {
       data: { token: this.loginToken },
 
     });
-    const favorites= responseFromFavoriteStoryCall.data.user.favorites;
-    currentUser.favorites= favorites
-    console.log('favorites:',favorites)
+    const favorites = responseFromFavoriteStoryCall.data.user.favorites;
+    currentUser.favorites = favorites;
+    console.log('favorites:', favorites);
 
 
   }
@@ -243,8 +243,9 @@ class User {
 
     });
     console.log('favs response :', responseFromUnFavoriteStoryCall);
-    const favorites= responseFromUnFavoriteStoryCall.data.user.favorites;
-    currentUser.favorites= favorites
+    const favorites = responseFromUnFavoriteStoryCall.data.user.favorites;
+    currentUser.favorites = favorites;
+    console.log('favorites:', favorites);
 
   }
 

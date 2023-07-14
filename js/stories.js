@@ -21,7 +21,7 @@ async function getAndShowStoriesOnStart() {
 
 function generateStoryMarkup(story) {
   // console.debug("generateStoryMarkup", story);
-  console.log("user favorites?:", currentUser.favorites);
+  // console.log("user favorites?:", currentUser.favorites);
 
   const hostName = story.getHostName();
   // TODO: Set favorite icon status based on currentUser
@@ -42,14 +42,9 @@ function generateStoryMarkup(story) {
   if (currentUser.isFavoriteStory(story.storyId)) {
     //add filled star class
     $jQueryStory.prepend(`<i class=" bi bi-star-fill"></i>`);
-    console.log('is fav ? ', $jQueryStory);
-
-
   } else {
-
     //add empty star class
     $jQueryStory.prepend(`<i class="bi bi-star"> </i>`);
-    console.log('is notfav ? ', $jQueryStory);
   }
 
 
@@ -112,27 +107,31 @@ async function getNewStoryAndAdd(evt) {
 
 $newStoryForm.on("submit", getNewStoryAndAdd);
 
-
-
-
-function toggleFavoriteStory(storyId) {
-
+/** Accepts a story ID and either adds or removes it as a favorite;
+ * Also refreshes the page so that favorite status is updated
+ */
+async function toggleFavoriteStory(storyId) {
+  // example store: '1f6dc862-198f-4bf5-8302-fe6bf88828a5'
+  console.log("toggling favorite story:", storyId);
   //if favorite story selected ,unfill story reresh UI
-  if (currentUser.isFavoriteStory(storyId)){
-    //invoke unfavorite(storyId)
-    currentUser.unFavorite(storyId)
-    putStoriesOnPage()
-
-    //switch to unfilled star
-   //<i class="bi bi-star"></i>
-
+  if (currentUser.isFavoriteStory(storyId)) {
+    console.log("we think it's currently a favorite");
+    console.log("we are going to call unFavorite");
+    await currentUser.unFavorite(storyId);
+    putStoriesOnPage();
   } else {
+    console.log("we think it's currently NOT a favorite");
+    console.log("we are going to call addFavorite");
+    await currentUser.addFavorite(storyId);
+    console.log('favorited', storyId);
+    putStoriesOnPage();
+  }
+}
 
-  //invoke favorite(storyId)
-    //switch to filled star
-    currentUser.addFavorite(storyId)
-    console.log('favorited',storyId)
-    putStoriesOnPage()
-    //<i class="bi bi-star-filled"></i>
-}
-}
+$("#all-stories-list").on("click", ".bi", async function (evt) {
+  const storyId = $(evt.target).closest("li").prop("id");
+  // console.log("story id (from prop(id)) is:", storyId);
+  // console.log("value of attr(id) is:", $(evt.target).closest("li").attr("id"));
+  await toggleFavoriteStory(storyId);
+});
+
