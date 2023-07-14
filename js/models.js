@@ -243,5 +243,17 @@ class User {
 
   }
 
-
+  // write a function that takes a story (or story ID)
+  // if the story is in the current user's favorites, return true
+  isFavoriteStory(storyId) {
+    // example storyId value: 1f6dc862-198f-4bf5-8302-fe6bf88828a5
+    // user.favorites is an array of story objects
+    for (const story of currentUser.favorites) {
+      // checking if the storyId of current story is equal to storyId passed in
+      if (story.storyId === storyId) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
