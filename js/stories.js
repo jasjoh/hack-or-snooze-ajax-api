@@ -28,7 +28,7 @@ function generateStoryMarkup(story) {
   // TODO: We will also need click handler for toggling favorite
   // TODO: When user clicks star, switch from 'bi-star' to 'bi-star-fill'
   // HTML for the star is:  <i class="bi bi-star"></i>
-  const jQueryStory = $(`
+  const $jQueryStory = $(`
     <li id="${story.storyId}">
       <a href="${story.url}" target="a_blank" class="story-link">
         ${story.title}
@@ -38,7 +38,22 @@ function generateStoryMarkup(story) {
       <small class="story-user">posted by ${story.username}</small>
     </li>`);
 
-  return jQueryStory;
+
+  if (currentUser.isFavoriteStory(story.storyId)) {
+    //add filled star class
+    $jQueryStory.prepend(`<i class=" bi bi-star-fill"></i>`);
+    console.log('is fav ? ', $jQueryStory);
+
+
+  } else {
+
+    //add empty star class
+    $jQueryStory.prepend(`<i class="bi bi-star"> </i>`);
+    console.log('is notfav ? ', $jQueryStory);
+  }
+
+
+  return $jQueryStory;
   // if the current story is a favorite
   // insert the star into the jQueryStory object with solid fill
   // otherwise, insert with no fill
@@ -96,3 +111,28 @@ async function getNewStoryAndAdd(evt) {
 }
 
 $newStoryForm.on("submit", getNewStoryAndAdd);
+
+
+
+
+function toggleFavoriteStory(storyId) {
+
+  //if favorite story selected ,unfill story reresh UI
+  if (currentUser.isFavoriteStory(storyId)){
+    //invoke unfavorite(storyId)
+    currentUser.unFavorite(storyId)
+    putStoriesOnPage()
+
+    //switch to unfilled star
+   //<i class="bi bi-star"></i>
+
+  } else {
+
+  //invoke favorite(storyId)
+    //switch to filled star
+    currentUser.addFavorite(storyId)
+    console.log('favorited',storyId)
+    putStoriesOnPage()
+    //<i class="bi bi-star-filled"></i>
+}
+}
