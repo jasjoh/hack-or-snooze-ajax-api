@@ -34,10 +34,12 @@ function updateNavOnLogin() {
   $(".main-nav-links").show();
   $navLogin.hide();
   $navLogOut.show();
+  $navFavorites.show();
+  $navSubmit.show();
   $navUserProfile.text(`${currentUser.username}`).show();
 }
 
-/** Displays new story submission form on click on "submit" *///try Displaynewstoryaddform or show new story
+/** Displays new story submission form on click on "submit" */
 function navNewStory(evt) {
 
   console.log("navNewStory func called with:", evt);
@@ -45,3 +47,15 @@ function navNewStory(evt) {
 }
 
 $navSubmit.on("click", navNewStory);
+
+/** Displays my favorites on click on "submit" */
+function navFavorites(evt) {
+
+  console.log("navFavorites func called with:", evt);
+  evt.preventDefault();
+  hidePageComponents();
+  // TODO: show list of favorites akin to putStoriesOnPage()
+  putFavoritesOnPage();
+}
+
+$navFavorites.on("click", navFavorites);

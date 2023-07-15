@@ -223,7 +223,8 @@ class User {
 
     });
     const favorites = responseFromFavoriteStoryCall.data.user.favorites;
-    currentUser.favorites = favorites;
+    const favoritesAsStories = favorites.map(story => new Story(story));
+    currentUser.favorites = favoritesAsStories;
     console.log('favorites:', favorites);
 
 
@@ -244,7 +245,8 @@ class User {
     });
     console.log('favs response :', responseFromUnFavoriteStoryCall);
     const favorites = responseFromUnFavoriteStoryCall.data.user.favorites;
-    currentUser.favorites = favorites;
+    const favoritesAsStories = favorites.map(story => new Story(story));
+    currentUser.favorites = favoritesAsStories;
     console.log('favorites:', favorites);
 
   }

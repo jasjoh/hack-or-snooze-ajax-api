@@ -20,14 +20,17 @@ async function getAndShowStoriesOnStart() {
  */
 
 function generateStoryMarkup(story) {
-  // console.debug("generateStoryMarkup", story);
-  // console.log("user favorites?:", currentUser.favorites);
 
+  // try {
+  //   const hostName = story.getHostName();
+  // } catch (error) {
+  //   console.log("hostName function not found");
+  //   const hostName = invalid;
+  // }
+  console.log("the story is:", story);
   const hostName = story.getHostName();
-  // TODO: Set favorite icon status based on currentUser
-  // TODO: We will also need click handler for toggling favorite
-  // TODO: When user clicks star, switch from 'bi-star' to 'bi-star-fill'
-  // HTML for the star is:  <i class="bi bi-star"></i>
+
+
   const $jQueryStory = $(`
     <li id="${story.storyId}">
       <a href="${story.url}" target="a_blank" class="story-link">
@@ -38,13 +41,14 @@ function generateStoryMarkup(story) {
       <small class="story-user">posted by ${story.username}</small>
     </li>`);
 
-
-  if (currentUser.isFavoriteStory(story.storyId)) {
-    //add filled star class
-    $jQueryStory.prepend(`<i class=" bi bi-star-fill"></i>`);
-  } else {
-    //add empty star class
-    $jQueryStory.prepend(`<i class="bi bi-star"> </i>`);
+  if (currentUser) {
+    if (currentUser.isFavoriteStory(story.storyId)) {
+      //add filled star class
+      $jQueryStory.prepend(`<i class="Fav-star bi bi-star-fill"></i>`);
+    } else {
+      //add empty star class
+      $jQueryStory.prepend(`<i class="Fav-star bi bi-star"> </i>`);
+    }
   }
 
 
@@ -77,6 +81,23 @@ function putStoriesOnPage() {
 
   // loop through all of our stories and generate HTML for them
   for (let story of storyList.stories) {
+    const $story = generateStoryMarkup(story);
+    $allStoriesList.append($story);
+  }
+
+  $allStoriesList.show();
+}
+
+/** gets the list of favorites from user, generates HTML and puts on page. */
+function putFavoritesOnPage() {
+  console.debug("putFavoritesOnPage");
+  console.debug("the current user:", currentUser);
+  console.debug("the current user's favorites are:", currentUser.favorites);
+
+  $allStoriesList.empty();
+
+  // loop through all of the user's favorites and generate HTML for them
+  for (let story of currentUser.favorites) {
     const $story = generateStoryMarkup(story);
     $allStoriesList.append($story);
   }
@@ -128,7 +149,7 @@ async function toggleFavoriteStory(storyId) {
   }
 }
 
-$("#all-stories-list").on("click", ".bi", async function (evt) {
+$("#all-stories-list").on("click", ".Fav-star", async function (evt) {
   const storyId = $(evt.target).closest("li").prop("id");
   // console.log("story id (from prop(id)) is:", storyId);
   // console.log("value of attr(id) is:", $(evt.target).closest("li").attr("id"));
